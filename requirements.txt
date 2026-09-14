@@ -1,0 +1,4 @@
+numpy>=2.2
+pandas>=2.3
+catboost>=1.2.10
+joblib>=1.5

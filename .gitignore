@@ -1,0 +1,13 @@
+data/
+output/
+catboost_info/
+__pycache__/
+*.py[cod]
+*.zip
+*.cbm
+*.pkl
+.venv/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
