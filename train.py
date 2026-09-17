@@ -92,7 +92,7 @@ def add_team13(d, X):
 
 
 def baselines(df):
-    """학습 끝 시점 누적 — current-season 계산의 동결 기준."""
+    """학습 끝 시점 누적 - current-season 계산의 동결 기준."""
     return (FE.build_end_baseline(
                 df, "pitcher_id", "asof_pitcher_n",
                 {"success": "asof_pitcher_success_rate",
@@ -210,14 +210,14 @@ def main():
           flush=True)
     ensure_proxy(df)
 
-    # [1] walk-forward OOF — 잔차맵 재료. 각 fold 는 그 시즌 이전만 학습한다.
+    # [1] walk-forward OOF - 잔차맵 재료. 각 fold 는 그 시즌 이전만 학습한다.
     #     --fast 는 이 단계를 건너뛰고 기존 제출본의 잔차맵을 재사용한다.
     RES = None
     if fast:
         prev = os.path.join(STAGE, "model", "bundle.pkl")
         if os.path.exists(prev):
             RES = joblib.load(prev)["residual"]
-            print(f"\n[1/4] OOF 건너뜀 — 기존 잔차맵 재사용 "
+            print(f"\n[1/4] OOF 건너뜀 - 기존 잔차맵 재사용 "
                   f"(K={RES['k']:.0f} sh={RES['shrink']:.2f})", flush=True)
         else:
             print("\n[1/4] 기존 잔차맵 없음 -> OOF 를 계산한다", flush=True)
@@ -246,7 +246,7 @@ def main():
         oof[m_va] = blend([p_reg], [p_mc])
         print(f"  {s} 완료 ({time.time()-t1:.0f}s)", flush=True)
 
-    # [2] 잔차맵 — game_type R 만(F 는 2023 에 체제가 뒤집혀 오염된다)
+    # [2] 잔차맵 - game_type R 만(F 는 2023 에 체제가 뒤집혀 오염된다)
     print("\n[2/4] 잔차맵", flush=True)
     mm = np.isfinite(oof) & df.game_type.astype(str).eq("R").to_numpy()
     src = res_context(df[mm])
@@ -255,7 +255,7 @@ def main():
     print("  " + " / ".join(f"{k}:{len(RES[k])}" for k in ("ph", "ct", "pc", "bs")),
           flush=True)
 
-    # [3] 최종 모델 — 전체 데이터
+    # [3] 최종 모델 - 전체 데이터
     print("\n[3/4] 최종 학습", flush=True)
     PB, BB = baselines(df)
     X = make_frame(df, train_mode=True)
@@ -329,7 +329,7 @@ def main():
     print(f"  shift {sh:+.5f} -> 착지 {p.mean():.5f} (목표 {goal:.5f})  "
           f"범위 {p.min():.4f}~{p.max():.4f}", flush=True)
 
-    # 행 독립성 — 부분집합·순서·이웃을 바꿔도 같은 값이어야 한다
+    # 행 독립성 - 부분집합·순서·이웃을 바꿔도 같은 값이어야 한다
     rng = np.random.default_rng(0)
     smp = prox.iloc[rng.choice(len(prox), 1500, replace=False)].reset_index(drop=True)
     base = dict(zip(smp.row_id, mod.predict(smp, bd)))
@@ -355,7 +355,7 @@ def main():
           f"이웃 {d[3]:.1e} / 팀13이웃 {d[4]:.1e}  {'통과' if ok else '실패'}",
           flush=True)
     if not ok:
-        raise RuntimeError("행 독립성 감사 실패 — 패키징 중단")
+        raise RuntimeError("행 독립성 감사 실패 - 패키징 중단")
     bad = set(cols) & mod.FORBIDDEN
     if bad:
         raise RuntimeError(f"금지 컬럼 {sorted(bad)}")

@@ -1,12 +1,12 @@
-"""E1.1 — 외부 노트북(`train.ipynb`)의 61피처 재현.
+"""E1.1 - 외부 노트북(`train.ipynb`)의 61피처 재현.
 
 구성: 공식 raw 47 + 투수 current-season 10 + 타자 current-season 7.
 
 ★핵심 설계★
 외부 노트북은 train과 test에서 서로 다른 경로를 쓴다:
-  - train: `_season_delta_by_entity` — 각 (season, entity)의 첫 행 값을 빼서
+  - train: `_season_delta_by_entity` - 각 (season, entity)의 첫 행 값을 빼서
            "이번 시즌 지금까지"를 만든다(행별 인과적).
-  - test : `build_train_end_entity_baseline` — 학습 마지막 행의 누적값을
+  - test : `build_train_end_entity_baseline` - 학습 마지막 행의 누적값을
            고정 상수로 얼려 두고 그걸 뺀다(다른 test 행 미참조 -> 합법).
 
 walk-forward 검증에서 **validation fold는 test 경로를 써야 한다.**
@@ -84,11 +84,11 @@ def _safe_rate(count, n):
 
 
 def _smoothed(season_count, season_n, asof_rate, alpha=None):
-    """(season_count + a*prior) / (season_n + a) — 우리 K90과 같은 공식.
+    """(season_count + a*prior) / (season_n + a) - 우리 K90과 같은 공식.
     외부는 a=50, prior=통산 asof rate.
 
     ★alpha 기본값은 호출 시점에 모듈 전역에서 읽는다.★
-    (정의 시점 바인딩이면 `FE.SMOOTH_ALPHA = x` 로 바꿔도 안 먹힌다 —
+    (정의 시점 바인딩이면 `FE.SMOOTH_ALPHA = x` 로 바꿔도 안 먹힌다
      2026-08-27 E15 에서 실제로 이 버그로 세 스윕이 전부 동일값이 나왔다.)
     """
     if alpha is None:

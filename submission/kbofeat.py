@@ -1,4 +1,4 @@
-"""feat_F 피처 생성 — 학습과 추론이 같은 코드를 쓴다.
+"""feat_F 피처 생성 - 학습과 추론이 같은 코드를 쓴다.
 
 핵심 아이디어(레짐 조정)
   asof_pitcher_success_rate 는 통산 누적이라 ABS 도입 전후가 한 숫자에 섞여 있다.
@@ -194,12 +194,12 @@ TYPES_C = ["fb", "br", "os"]
 AXES_C = ["cnt", "two", "thr", "bh", "run"]
 COND_K = 150.0
 COND_LAM = 0.6
-# (조회키, 상황축, 접두사, 수축강도) — 2024 홀드아웃에서 확정된 조합
+# (조회키, 상황축, 접두사, 수축강도) - 2024 홀드아웃에서 확정된 조합
 #   투수만 962.1 / +투수팀 970.6 / +타자팀 980.7 / +투수손x타자팀 991.0
 #   + form1(직전등판 폼) 992.1 -> v7 믹스와 결합하면 1000.3 (w=0.70)
 # form1 은 h2/h1 이월 비율을 0.423 -> 0.454 로 올린다(이월 내성 개선).
 # reverse 는 '포수 요구의 반대' 이므로 팀 배터리·사인 체계가 직접 관여한다.
-# 키를 더 늘리면(팀쌍 등) 오히려 깎인다 — 셀당 표본이 충분한 조합만 쓴다.
+# 키를 더 늘리면(팀쌍 등) 오히려 깎인다 - 셀당 표본이 충분한 조합만 쓴다.
 COND_SPECS = [
     ("pitcher_id", AXES_C + ["form1"], "c_", 150.0),
     ("pitcher_team_id", AXES_C, "pt_", 400.0),
@@ -284,7 +284,7 @@ def _wmat(cols, lam, out_cols=None):
     """W[t, s] = lam^(t-s) for s < t else 0.
 
     out_cols 를 주면 (출력시즌 x 입력시즌) 직사각 행렬이 된다. 학습 데이터에
-    없는 시즌(예: 2025) 의 슬라이스를 만들기 위한 것 — 그 시즌보다 **이전**
+    없는 시즌(예: 2025) 의 슬라이스를 만들기 위한 것 - 그 시즌보다 **이전**
     시즌만 s<t 조건으로 들어가므로 누출은 여전히 없다.
     """
     t = (cols if out_cols is None else out_cols).astype("f8").reshape(-1, 1)
@@ -336,7 +336,7 @@ def cond_tables(src, who, axes, lam=COND_LAM, extra_cols=()):
 
 
 def cond_apply(X, d, T, who, axes, pre, K):
-    """학습용 — 각 행의 시즌에 해당하는 슬라이스를 쓴다."""
+    """학습용 - 각 행의 시즌에 해당하는 슬라이스를 쓴다."""
     X = X.copy()
     key = d[who].to_numpy()
     ssn = d.season.to_numpy()
@@ -362,7 +362,7 @@ def cond_apply(X, d, T, who, axes, pre, K):
 
 
 def cond_freeze(T, axes, target_season):
-    """추론용 — 목표 시즌 슬라이스만 뽑아 소형 표로 동결한다.
+    """추론용 - 목표 시즌 슬라이스만 뽑아 소형 표로 동결한다.
 
     평가 시 모든 행이 같은 시즌(2025)이므로 한 장이면 충분하다.
     조회는 (그 행의 키, 그 행 자신의 상황) 만 쓴다.
@@ -381,7 +381,7 @@ def cond_freeze(T, axes, target_season):
 
 
 def cond_apply_frozen(X, d, F, who, axes, pre, K):
-    """추론용 — 동결표로 학습과 동일한 피처를 만든다."""
+    """추론용 - 동결표로 학습과 동일한 피처를 만든다."""
     X = X.copy()
     key = d[who].to_numpy()
     own = {}
