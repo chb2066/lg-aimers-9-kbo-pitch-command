@@ -89,15 +89,6 @@ python train.py --fast      # 모델을 하나씩만 학습. 잔차표 재사용
 
 `train.py` 는 시간순 검증 예측(98분) → 잔차 보정표 생성 → 최종 모델 학습(71분) → 평균 보정과 행 독립성 검사(5분) 순으로 진행함. 검사는 같은 행을 한 개씩 넣거나 순서를 섞는 등 25가지 방식으로 입력해 결과가 완전히 같은지 확인하고, 하나라도 어긋나면 zip 을 만들지 않음.
 
-## 파일
-
-```
-train.py              학습부터 제출 zip 생성까지
-derive_target.py      평균 보정 상수 계산
-submission/           제출 zip 에 들어간 추론 코드
-docs/experiments.md   단계별 세부 수치
-```
-
 `submission/` 은 1146.91 점을 받은 제출본과 같은 코드라 주석도 당시 그대로 둠. `submission/requirements.txt` 는 초반 LightGBM 계열부터 이어 쓰던 목록이라 지금 코드가 쓰지 않는 패키지도 들어 있음.
 
 ## 규정
